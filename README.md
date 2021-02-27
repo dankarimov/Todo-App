@@ -1,6 +1,6 @@
 # Todo
 
-> Todo app sample with React(useReducer) and styled-components
+> Todo app sample with React(useReducer), Typescript and styled-components
 
 ### Features
 
