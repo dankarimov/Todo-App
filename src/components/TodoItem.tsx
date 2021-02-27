@@ -1,6 +1,7 @@
-import { useContext } from "react";
-import TodoContext from "../context";
+import { useContext, FC } from "react";
+import TodoContext from "../context/";
 import styled from "styled-components";
+import { TodoInterface } from "../types";
 
 const Item = styled.li`
   margin-bottom: 0.8rem;
@@ -27,7 +28,11 @@ const Text = styled.span`
   margin-left: 0.5rem;
 `;
 
-const TodoItem = ({ todo }) => {
+interface Props {
+  todo: TodoInterface;
+}
+
+const TodoItem: FC<Props> = ({ todo }) => {
   const { dispatchTodos } = useContext(TodoContext);
 
   const handleCheck = () =>
@@ -45,8 +50,8 @@ const TodoItem = ({ todo }) => {
   return (
     <Item>
       <input type='checkbox' checked={todo.complete} onChange={handleCheck} />
-      <Text>{todo.task}</Text>
-      <Button onClick={() => handleDelete(todo.id)}>&#x2715;</Button>
+      <Text>{todo.text}</Text>
+      <Button onClick={() => handleDelete()}>&#x2715;</Button>
     </Item>
   );
 };

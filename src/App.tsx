@@ -1,11 +1,12 @@
-import React, { useReducer, useEffect } from "react";
+import React, { useReducer, useEffect, FC } from "react";
 import { v4 as uuid } from "uuid";
 import { AppProvider } from "./context/";
 import { filterReducer, todoReducer } from "./reducers";
-import AddTodo from "./components/AddTodo.js";
-import TodoList from "./components/TodoList.js";
-import Filter from "./components/Filter.js";
+import AddTodo from "./components/AddTodo";
+import TodoList from "./components/TodoList";
+import Filter from "./components/Filter";
 import styled from "styled-components";
+import { TodoInterface } from "./types";
 
 const Header = styled.header`
   background: palevioletred;
@@ -23,37 +24,37 @@ const Reset = styled.div`
   margin-top: 0.5rem;
 `;
 
-const INITIAL_TODOS = [
+const INITIAL_TODOS: TodoInterface[] = [
   {
     id: uuid(),
-    task: "Make a todo list",
+    text: "Make a todo list",
     complete: true,
   },
   {
     id: uuid(),
-    task: 'Check off first thing on the "todo" list',
+    text: 'Check off first thing on the "todo" list',
     complete: true,
   },
   {
     id: uuid(),
-    task: "Realize you've already accomplished 2 things on the list",
+    text: "Realize you've already accomplished 2 things on the list",
     complete: true,
   },
   {
     id: uuid(),
-    task: "Reward yourself with a nap",
+    text: "Reward yourself with a nap",
     complete: false,
   },
 ];
 
-const App = () => {
+const App: FC = () => {
   const [filter, dispatchFilter] = useReducer(filterReducer, "ALL");
-
-  const lsTodos = JSON.parse(localStorage.getItem("todos"));
+  const lsTodos = JSON.parse(localStorage.getItem("todos") || "{}");
   const [todos, dispatchTodos] = useReducer(
     todoReducer,
     lsTodos || INITIAL_TODOS
   );
+
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos));
   }, [todos]);
@@ -65,7 +66,7 @@ const App = () => {
     });
   };
 
-  const filteredTodos = todos.filter(todo => {
+  const filteredTodos = todos.filter((todo: TodoInterface) => {
     if (filter === "ALL") {
       return true;
     }
@@ -91,7 +92,7 @@ const App = () => {
         <Reset className='button' onClick={() => reset()}>
           [reset]
         </Reset>
-        <TodoList todos={filteredTodos} />
+        <TodoList items={filteredTodos} />
         <Filter dispatchFilter={dispatchFilter} active={filter} />
       </TodoApp>
     </AppProvider>

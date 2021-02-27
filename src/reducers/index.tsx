@@ -1,6 +1,7 @@
 import { v4 as uuid } from "uuid";
+import { TodoInterface } from "../types";
 
-export const filterReducer = (state, action) => {
+export const filterReducer = (state: string, action: { type: string }) => {
   switch (action.type) {
     case "SHOW_ALL":
       return "ALL";
@@ -13,7 +14,15 @@ export const filterReducer = (state, action) => {
   }
 };
 
-export const todoReducer = (state, action) => {
+export const todoReducer = (
+  state: TodoInterface[],
+  action: {
+    type: string;
+    id?: string;
+    text?: string;
+    payload?: any;
+  }
+) => {
   switch (action.type) {
     case "DO_TODO":
       return state.map(todo => {
@@ -31,10 +40,10 @@ export const todoReducer = (state, action) => {
       });
     case "ADD_TODO":
       return state.concat({
-        task: action.task,
+        text: action.text,
         id: uuid(),
         complete: false,
-      });
+      } as TodoInterface);
     case "DELETE_TODO":
       return state.filter(todo => todo.id !== action.id);
     case "INITIAL_TODO":

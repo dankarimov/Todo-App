@@ -1,3 +1,4 @@
+import { FC } from "react";
 import styled from "styled-components";
 
 const Filters = styled.div`
@@ -7,7 +8,12 @@ const Filters = styled.div`
   justify-content: space-between;
 `;
 
-const Filter = ({ dispatchFilter, active }) => {
+interface Props {
+  dispatchFilter: (filter: { type: string }) => void;
+  active: string;
+}
+
+const Filter: FC<Props> = ({ dispatchFilter, active }) => {
   const handleShowAll = () => {
     dispatchFilter({ type: "SHOW_ALL" });
   };

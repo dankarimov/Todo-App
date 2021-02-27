@@ -1,4 +1,6 @@
-import TodoItem from "./TodoItem.js";
+import { FC } from "react";
+import TodoItem from "./TodoItem";
+import { TodoInterface } from "../types";
 import styled from "styled-components";
 
 const List = styled.ul`
@@ -8,9 +10,13 @@ const List = styled.ul`
   min-height: 200px;
 `;
 
-const TodoList = ({ todos }) => (
+interface Props {
+  items: TodoInterface[];
+}
+
+const TodoList: FC<Props> = ({ items }) => (
   <List>
-    {todos.map(todo => (
+    {items.map(todo => (
       <TodoItem key={todo.id} todo={todo} />
     ))}
   </List>
